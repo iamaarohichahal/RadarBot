@@ -3,10 +3,11 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 import spacy
-
+from flask import Flask, render_template, request
 
 nlp = spacy.load('en')
 
+app = Flask(__name__)
 
 bot = ChatBot(
     "RadarBot",
@@ -126,11 +127,25 @@ list_to_train = [
 list_trainer = ListTrainer(bot)
 list_trainer.train(list_to_train)
 
-while True:
-    user_response = input("users: ")
-    print("RadarBot:" +str( bot.get_response(user_response)))
+@app.route("/")
+def main():
+    return render_template("index.html")
 
 
+# while True:
+#     user_response = input("users: ")
+#     print("RadarBot:" +str( bot.get_response(user_response)))
+
+
+@app.route("/get")
+def get_chatbox_response():
+    userText = request.args.get('userMessage')
+    return str(bot.get.response(userText))
+
+
+
+if __name__  == "__main__":
+    app.run(debug=True)
 
 
      
