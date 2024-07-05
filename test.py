@@ -33,3 +33,8 @@ list_to_train = [
 # Create a ListTrainer instance and train the chatbot
 list_trainer = ListTrainer(bot)
 list_trainer.train(list_to_train)
+
+while True:
+    user_response = input("users: ")
+    print(bot.get_response(user_response))
+                          
