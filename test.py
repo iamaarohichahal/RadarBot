@@ -140,7 +140,7 @@ def main():
 @app.route("/get")
 def get_chatbox_response():
     userText = request.args.get('userMessage')
-    return str(bot.get.response(userText))
+    return str(bot.get_response(userText))
 
 
 

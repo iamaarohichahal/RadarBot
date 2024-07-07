@@ -9,13 +9,13 @@
         body {
             font-family: monospace;
         }  
-      .botText{
-        text-align: center;
-      }
+        .botText {
+            text-align: center;
+        }
         #chatbox {
             margin-left: auto;
             margin-right: auto;
-            width: 40;
+            width: 400px; /* Fixed the width attribute */
             margin-top: 50px;
             text-align: center;
         }
@@ -24,6 +24,7 @@
             font-family: monospace;
             font-size: 16px;
             text-align: center;
+            width: 300px; /* Adjusted input width */
         }
         #buttonInput {
             padding: 5px;
@@ -31,7 +32,7 @@
             font-size: 16px;
             text-align: center;
         }
-       #userInput {
+        #userInput {
             padding: 5px;
             font-family: monospace;
             font-size: 16px;
@@ -45,50 +46,45 @@
 <body>
     <h1>RadarBot</h1>
     <div>
-        <div id="RadarBot">
+        <div id="chatbox">
             <p class="botText"><span>Welcome to RadarBot!</span></p>
         </div>
         <div id="userInput">
-            <input id="textInput" type="text" name="userMessage" placeholder="Type your message" />
-            <input id="buttonInput" type="submit" value="Send"/>
+            <input id="textInput" type="text" placeholder="Type your message" />
+            <input id="buttonInput" type="button" value="Send"/> <!-- Changed type to button -->
         </div>
     </div>
 
-
     <script>
-        function getUserResponse(){
+        $("#buttonInput").click(function() {
+            getUserResponse();
+        });
 
-            var userText = $('getinput').val();
-            var userHTML = "<p class='userText'><span>"+userText+"</span></p>"
-            $('#textInput').val("");
-            $('#chatbox').append(userHTML);
-            document.getElementById("userInput").scrollIntoView({block:'start',behaviour:'smooth'});
-            $.get("/get".{userMessage: userText}).done(function(data){
-                var botHTML = "<p class'botText'><span>"+data+"</span></p>"
-                $('#chatbox').append(botHTML);
-            
-            });
-
-        }
-
-        $("#textInput").keypress(function(e){
-            if(e.which == 13){
+        $("#textInput").keypress(function(e) {
+            if (e.which == 13) {
                 getUserResponse();
-
             }
         });
 
-        $("#buttonInput").click(function(){
-            getUserResponse();
+        function getUserResponse() {
+            var userText = $('#textInput').val();
+            var userHTML = "<p class='userText'><span>" + userText + "</span></p>";
+            $('#textInput').val("");
+            $('#chatbox').append(userHTML);
+            document.getElementById("userInput").scrollIntoView({ block: 'start', behaviour: 'smooth' });
 
-        })
-        
-
-
-
-
-
-
+            // AJAX request to Flask backend
+            $.ajax({
+                type: "GET",
+                url: "/get",
+                data: { userMessage: userText },
+                success: function(data) {
+                    var botHTML = "<p class='botText'><span>" + data + "</span></p>";
+                    $('#chatbox').append(botHTML);
+                    document.getElementById("userInput").scrollIntoView({ block: 'start', behaviour: 'smooth' });
+                }
+            });
+        }
     </script>
 </body>
 </html>
