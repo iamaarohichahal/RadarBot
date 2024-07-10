@@ -14,8 +14,8 @@ responses = {
         "Hey, good to see you! What's your question?"
     ],
     "name": [
-        "I'm your assistant. You can call me ChatGPT.",
-        "People usually call me ChatGPT around here."
+        "I'm your assistant. You can call me RadarBot.",
+        "People usually call me RadarBot."
     ],
     "age": [
         "I don't have an age in the human sense. I'm here to help you."
@@ -147,6 +147,8 @@ def get_bot_response(user_text):
         return check_number_of_matches(user_text)
     else:
         return random.choice(responses["default"])
+    
+
 
 # Define routes for the Flask application
 @app.route("/")
@@ -161,3 +163,4 @@ def get_bot_response_route():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
