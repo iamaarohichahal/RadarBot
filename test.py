@@ -1,12 +1,13 @@
+
 from flask import Flask, render_template, request
 from nltk.tokenize import word_tokenize
 import nltk
 import random
 
-# Initialize NLTK tokenizer and download necessary data
+
 nltk.download('punkt')
 
-# Define responses for the bot
+
 responses = {
     "greetings": [
         "Hello! How can I assist you today?",
@@ -109,22 +110,9 @@ responses = {
     }
 }
 
-
-# Initialize Flask application
-app = Flask(__name__)
-
-# Define a function to process user input and return a response
-import random
-
 def check_number_of_matches(user_input):
     keywords = list(responses["fmcw"].keys())
-    keyword_counts = [0] * len(keywords)
-
-    for i, keyword in enumerate(keywords):
-        words_in_keyword = keyword.split()
-        for word in words_in_keyword:
-            if word in user_input.lower().split():
-                keyword_counts[i] += 1
+    keyword_counts = [sum(word in user_input.lower().split() for word in keyword.split()) for keyword in keywords]
 
     max_count = max(keyword_counts)
     if max_count == 0:
@@ -132,6 +120,7 @@ def check_number_of_matches(user_input):
 
     max_index = keyword_counts.index(max_count)
     return responses["fmcw"][keywords[max_index]]
+
 
 def get_bot_response(user_text):
     tokens = word_tokenize(user_text.lower())
@@ -142,15 +131,14 @@ def get_bot_response(user_text):
         return random.choice(responses["name"])
     elif any(word in tokens for word in ["age", "old", "year"]):
         return random.choice(responses["age"])
-    elif any(word in tokens for word in ["fmcw", "radar"]):
-        # Check for specific queries related to FMCW radar
+    elif check_number_of_matches(user_text) != "No matches found.":
         return check_number_of_matches(user_text)
     else:
         return random.choice(responses["default"])
     
 
+app = Flask(__name__)
 
-# Define routes for the Flask application
 @app.route("/")
 def index():
     return render_template("index.html")
