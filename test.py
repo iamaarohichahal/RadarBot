@@ -15,11 +15,15 @@ responses = {
         "Hey, good to see you! What's your question?"
     ],
     "name": [
-        "I'm your assistant. You can call me RadarBot.",
-        "People usually call me RadarBot."
+        "You can call me RadarBot.",
+        "People usually call me RadarBot.",
+        "my name is RadarBot!"
     ],
     "age": [
-        "I don't have an age in the human sense. I'm here to help you."
+        "I don't have an age in the human sense. I'm here to help you.",
+        "I am ageless!",
+        "I dont have an age but I was created in July 2024"
+
     ],
     "default": [
         "I'm sorry, I didn't quite catch that. Could you ask again?",
